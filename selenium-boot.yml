@@ -1,0 +1,21 @@
+execution:
+  mode: local           # local | remote
+  baseUrl: https://panjatan.netlify.app
+  parallel: methods     # none | methods | classes
+  threadCount: 4
+  maxActiveSessions: 4
+
+browser:
+  name: chrome          # chrome | firefox
+  headless: false
+  arguments:
+    - --start-maximized
+    - --disable-notifications
+
+retry:
+  enabled: true
+  maxAttempts: 2
+
+timeouts:
+  explicit: 10          # seconds — used by WaitEngine
+  pageLoad: 30          # seconds
