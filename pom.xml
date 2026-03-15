@@ -18,7 +18,7 @@
         <dependency>
             <groupId>io.github.seleniumboot</groupId>
             <artifactId>selenium-boot</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.1</version>
         </dependency>
 
         <dependency>
