@@ -5,7 +5,7 @@ import com.seleniumboot.test.BaseTest;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
-    @Test
+    @Test(description = "Valid login with correct credentials")
     public void loginTest(){
         open();
         LoginPage loginPage = new LoginPage();
