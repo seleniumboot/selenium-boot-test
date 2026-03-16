@@ -1,13 +1,14 @@
 execution:
   mode: local           # local | remote
   baseUrl: https://panjatan.netlify.app
-  parallel: methods     # none | methods | classes
+  parallel: none     # none | methods | classes
   threadCount: 4
   maxActiveSessions: 4
 
 browser:
   name: chrome          # chrome | firefox
   headless: false
+  lifecycle: per-suite  # per-test (default) | per-suite — keeps browser open across tests
   arguments:
     - --start-maximized
     - --disable-notifications
