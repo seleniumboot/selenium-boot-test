@@ -7,12 +7,13 @@ import com.seleniumboot.test.BaseTest;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
+
     @Test(description = "Valid login with correct credentials")
-    public void loginTest(){
+    public void loginTest() {
         open();
         StepLogger.step("Navigate to Login Page");
-        LoginPage loginPage = new LoginPage();
 
+        LoginPage loginPage = new LoginPage(getDriver());
         loginPage.enterUsername("admin");
         loginPage.enterPassword("password");
         StepLogger.step("Entered username and password", true);

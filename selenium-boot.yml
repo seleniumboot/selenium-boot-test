@@ -1,21 +1,23 @@
 execution:
   mode: local           # local | remote
   baseUrl: https://panjatan.netlify.app
-  parallel: none     # none | methods | classes
+  parallel: methods        # none | methods | classes
   threadCount: 4
   maxActiveSessions: 4
 
 browser:
-  name: chrome          # chrome | firefox
+  name: firefox          # chrome | firefox
   headless: false
-  lifecycle: per-suite  # per-test (default) | per-suite — keeps browser open across tests
+  lifecycle: per-test   # per-test (default) | per-suite
+  captureConsoleErrors: true   # collect JS errors — used by ConsoleErrorDemoTest
+  failOnConsoleErrors: false   # set true to fail test on any JS error
   arguments:
     - --start-maximized
     - --disable-notifications
 
 retry:
   enabled: true
-  maxAttempts: 2
+  maxAttempts: 0
 
 timeouts:
   explicit: 10          # seconds — used by WaitEngine
