@@ -6,7 +6,7 @@ execution:
   maxActiveSessions: 4
 
 browser:
-  name: firefox          # chrome | firefox
+  name: chrome          # chrome | firefox
   headless: false
   lifecycle: per-test   # per-test (default) | per-suite
   captureConsoleErrors: true   # collect JS errors — used by ConsoleErrorDemoTest
