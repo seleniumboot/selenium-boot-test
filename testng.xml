@@ -34,4 +34,10 @@
             <class name="com.saddy.tests.SmartLocatorDemoTest"/>
         </classes>
     </test>
+
+    <test name="MultiConditionsDemo">
+        <classes>
+            <class name="com.saddy.tests.MultiConditionsDemoTest"/>
+        </classes>
+    </test>
 </suite>
