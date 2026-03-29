@@ -70,4 +70,10 @@
             <class name="com.saddy.tests.RecordingDemoTest"/>
         </classes>
     </test>
+
+    <test name="ShadowDomDemo">
+        <classes>
+            <class name="com.saddy.tests.ShadowDomDemoTest"/>
+        </classes>
+    </test>
 </suite>
