@@ -22,3 +22,8 @@ retry:
 timeouts:
   explicit: 10          # seconds — used by WaitEngine
   pageLoad: 30          # seconds
+
+recording:
+  enabled: true
+  fps: 2
+  maxDurationSeconds: 30

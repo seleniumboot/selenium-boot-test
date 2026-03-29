@@ -64,4 +64,10 @@
             <class name="com.saddy.tests.HybridDemoTest"/>
         </classes>
     </test>
+
+    <test name="RecordingDemo">
+        <classes>
+            <class name="com.saddy.tests.RecordingDemoTest"/>
+        </classes>
+    </test>
 </suite>
