@@ -40,4 +40,28 @@
             <class name="com.saddy.tests.MultiConditionsDemoTest"/>
         </classes>
     </test>
+
+    <test name="FrameHandling">
+        <classes>
+            <class name="com.saddy.tests.FrameHandlingTest"/>
+        </classes>
+    </test>
+
+    <test name="ApiDemo">
+        <classes>
+            <class name="com.saddy.tests.ApiDemoTest"/>
+        </classes>
+    </test>
+
+    <test name="ApiSchemaDemo">
+        <classes>
+            <class name="com.saddy.tests.ApiSchemaDemoTest"/>
+        </classes>
+    </test>
+
+    <test name="HybridDemo">
+        <classes>
+            <class name="com.saddy.tests.HybridDemoTest"/>
+        </classes>
+    </test>
 </suite>
