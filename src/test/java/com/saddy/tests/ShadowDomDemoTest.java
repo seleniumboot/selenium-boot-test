@@ -2,7 +2,6 @@ package com.saddy.tests;
 
 import com.saddy.pages.ShadowDomPage;
 import com.seleniumboot.test.BaseTest;
-import com.seleniumboot.wait.WaitEngine;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -18,7 +17,7 @@ import static org.testng.Assert.*;
 public class ShadowDomDemoTest extends BaseTest {
 
     // @BeforeMethod cannot use getDriver() — driver is created by onTestStart which fires after
-    // @BeforeMethod. Each test calls open() at the top instead.
+    // @BeforeMethod. Each test calls shadowPage() at the top instead.
     private ShadowDomPage shadowPage() {
         ShadowDomPage page = new ShadowDomPage(getDriver());
         page.navigateTo();
@@ -43,11 +42,10 @@ public class ShadowDomDemoTest extends BaseTest {
         assertTrue(shadowPage().isShadowButtonVisible());
     }
 
-    @Test(description = "Click button inside shadow root — result text appears in DOM")
-    public void simpleShadowButtonClickUpdatesResult() {
+    @Test(description = "Click button inside shadow root — alert fires and text is captured")
+    public void simpleShadowButtonClickTriggersAlert() {
         ShadowDomPage page = shadowPage();
-        page.clickShadowButton();
-//        assertEquals(page.getShadowButtonResult(), "Button inside Shadow DOM clicked!");
+        assertEquals(page.clickShadowButtonAndGetAlert(), "Button inside Shadow DOM clicked!");
     }
 
     @Test(description = "Type into an input inside a shadow root")
@@ -75,11 +73,10 @@ public class ShadowDomDemoTest extends BaseTest {
                 "This is content inside a nested shadow DOM");
     }
 
-    @Test(description = "Click button in Level 2 shadow root — result text appears in DOM")
-    public void nestedShadowButtonClickUpdatesResult() throws InterruptedException {
+    @Test(description = "Click button in Level 2 shadow root — alert fires and text is captured")
+    public void nestedShadowButtonClickTriggersAlert() {
         ShadowDomPage page = shadowPage();
-        page.clickNestedButton();
-//        assertEquals(page.getNestedButtonResult(), "Button inside Nested Shadow DOM clicked!");
+        assertEquals(page.clickNestedButtonAndGetAlert(), "Button inside Nested Shadow DOM clicked!");
     }
 
     @Test(description = "Select an option from a <select> inside a nested shadow root")

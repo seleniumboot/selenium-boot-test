@@ -76,12 +76,9 @@ public class ShadowDomPage extends BasePage {
         return shadowFind(SIMPLE_HOST, "p").getText();
     }
 
-    public void clickShadowButton() {
+    public String clickShadowButtonAndGetAlert() {
         shadowClick(SIMPLE_HOST, "#shadowBtn1");
-    }
-
-    public String getShadowButtonResult() {
-        return shadowFind(SIMPLE_HOST, "#shadowBtnResult").getText();
+        return getAndAcceptAlert();
     }
 
     public void typeInShadowInput(String text) {
@@ -113,12 +110,9 @@ public class ShadowDomPage extends BasePage {
         return shadowPierce("#nestedShadowHost", "#nestedShadowHost2", "p").getText();
     }
 
-    public void clickNestedButton() {
+    public String clickNestedButtonAndGetAlert() {
         shadowPierce("#nestedShadowHost", "#nestedShadowHost2", "#nestedBtn").click();
-    }
-
-    public String getNestedButtonResult() {
-        return shadowPierce("#nestedShadowHost", "#nestedShadowHost2", "#nestedBtnResult").getText();
+        return getAndAcceptAlert();
     }
 
     public void selectNestedOption(String visibleText) {
