@@ -29,8 +29,7 @@ recording:
   maxDurationSeconds: 30
 
 reporting:
-  allure:
-    enabled: false        # set true to generate target/allure-results/ for Allure CLI
+  allureEnabled: false    # set true to generate target/allure-results/ for Allure CLI
 
 notifications:
   slack:
