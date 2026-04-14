@@ -25,6 +25,6 @@ public class RegistrationPage extends BasePage {
         click(CODING);
         type(BIO, "Enthusiast coder");
         click(REG_BTN);
-        acceptAlert();
+//        acceptAlert();
     }
 }

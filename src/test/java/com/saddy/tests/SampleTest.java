@@ -19,11 +19,11 @@ public class SampleTest extends BaseTest {
         assertEquals(getDriver().getTitle(), "Google");
     }
 
-    @Retryable
-    @Test(description = "This is a flaky Test")
-    public void flakyTest() {
-        if (Math.random() < 0.7) {
-            throw new RuntimeException("Random failure");
-        }
-    }
+//    @Retryable
+//    @Test(description = "This is a flaky Test")
+//    public void flakyTest() {
+//        if (Math.random() < 0.7) {
+//            throw new RuntimeException("Random failure");
+//        }
+//    }
 }
