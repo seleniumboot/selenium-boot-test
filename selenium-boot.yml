@@ -28,6 +28,10 @@ recording:
   fps: 2
   maxDurationSeconds: 30
 
+tracing:
+  enabled: true           # generate trace HTML for failed tests
+  captureOnPass: false    # set true to also generate traces for passing tests
+
 reporting:
   allureEnabled: false    # set true to generate target/allure-results/ for Allure CLI
 
