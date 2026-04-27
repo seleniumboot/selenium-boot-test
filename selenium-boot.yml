@@ -1,11 +1,9 @@
 execution:
-  mode: remote           # local | remote  →  switch to "remote" for Sauce Labs
+  mode: local           # local | remote
   baseUrl: https://panjatan.netlify.app
   parallel: methods        # none | methods | classes
   threadCount: 4
   maxActiveSessions: 4
-  # Sauce Labs grid URL — uncomment when running on Sauce Labs
-  # gridUrl: https://ondemand.eu-central-1.saucelabs.com:443/wd/hub
 
 browser:
   name: chrome          # chrome | firefox
@@ -16,15 +14,6 @@ browser:
   arguments:
     - --start-maximized
     - --disable-notifications
-  # Sauce Labs capabilities — uncomment the block below when running on Sauce Labs
-  capabilities:
-    platformName: "Windows 11"
-    browserVersion: "latest"
-    "sauce:options":
-      username: "oauth-sddmhossain786-9d339"
-      accessKey: "be291c86-494c-4e98-be53-3c90093a98c1"
-      build: "selenium-boot-run-001"
-      name: "Selenium Boot Tests"
 
 retry:
   enabled: true
