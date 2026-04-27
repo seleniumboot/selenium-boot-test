@@ -32,6 +32,9 @@ tracing:
   enabled: true           # generate trace HTML for failed tests
   captureOnPass: false    # set true to also generate traces for passing tests
 
+locators:
+  selfHealing: true       # retry with fallback strategies when a locator times out
+
 reporting:
   allureEnabled: false    # set true to generate target/allure-results/ for Allure CLI
 
