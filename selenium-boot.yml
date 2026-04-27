@@ -1,5 +1,5 @@
 execution:
-  mode: local           # local | remote  →  switch to "remote" for Sauce Labs
+  mode: remote           # local | remote  →  switch to "remote" for Sauce Labs
   baseUrl: https://panjatan.netlify.app
   parallel: methods        # none | methods | classes
   threadCount: 4
