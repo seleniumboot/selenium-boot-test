@@ -17,7 +17,7 @@
         <dependency>
             <groupId>io.github.seleniumboot</groupId>
             <artifactId>selenium-boot</artifactId>
-            <version>1.9.0-SNAPSHOT</version>
+            <version>1.9.0</version>
         </dependency>
 
         <dependency>
@@ -36,6 +36,21 @@
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
             <version>7.20.1</version>
+        </dependency>
+
+        <!-- JUnit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.10.2</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
