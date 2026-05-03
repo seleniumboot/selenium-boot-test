@@ -17,7 +17,7 @@
         <dependency>
             <groupId>io.github.seleniumboot</groupId>
             <artifactId>selenium-boot</artifactId>
-            <version>1.9.0</version>
+            <version>1.11.0</version>
         </dependency>
 
         <dependency>
@@ -61,6 +61,51 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                <!-- surefire-testng at plugin level so it's applied to TestNG execution -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-testng</artifactId>
+                        <version>3.2.5</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+
+                    <!-- Disable the auto-detected default execution -->
+                    <execution>
+                        <id>default-test</id>
+                        <phase>none</phase>
+                    </execution>
+
+                    <!-- TestNG: BaseTest subclasses + CucumberRunner -->
+                    <execution>
+                        <id>testng</id>
+                        <phase>test</phase>
+                        <goals><goal>test</goal></goals>
+                        <configuration>
+                            <includes>
+                                <include>**/*Test.java</include>
+                                <include>**/CucumberRunner.java</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/junit5/**</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+
+                    <!-- JUnit 5 tests -->
+                    <execution>
+                        <id>junit5</id>
+                        <phase>test</phase>
+                        <goals><goal>test</goal></goals>
+                        <configuration>
+                            <includes>
+                                <include>**/junit5/**/*Test.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+
+                </executions>
             </plugin>
         </plugins>
     </build>

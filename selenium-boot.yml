@@ -17,7 +17,7 @@ browser:
 
 retry:
   enabled: true
-  maxAttempts: 0
+  maxAttempts: 1   # 1 retry = 2 total attempts per scenario
 
 timeouts:
   explicit: 10          # seconds — used by WaitEngine
