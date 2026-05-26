@@ -69,16 +69,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
-                <!-- surefire-testng explicit so TestNG execution doesn't need to auto-resolve it -->
-                <!-- surefire-junit-platform is intentionally NOT listed here; Surefire 3.x auto-resolves
-                     it per-execution in isolation, which avoids classloader conflicts with surefire-testng -->
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-testng</artifactId>
-                        <version>3.2.5</version>
-                    </dependency>
-                </dependencies>
                 <executions>
 
                     <!-- Disable the auto-detected default execution -->
