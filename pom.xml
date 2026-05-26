@@ -77,19 +77,17 @@
                         <phase>none</phase>
                     </execution>
 
-                    <!-- TestNG: BaseTest subclasses + CucumberRunner -->
+                    <!-- TestNG: all tests declared in testng.xml.
+                         suiteXmlFiles is the only config that unconditionally forces
+                         TestNG provider selection regardless of classpath auto-detection. -->
                     <execution>
                         <id>testng</id>
                         <phase>test</phase>
                         <goals><goal>test</goal></goals>
                         <configuration>
-                            <includes>
-                                <include>**/*Test.java</include>
-                                <include>**/CucumberRunner.java</include>
-                            </includes>
-                            <excludes>
-                                <exclude>**/junit5/**</exclude>
-                            </excludes>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>testng.xml</suiteXmlFile>
+                            </suiteXmlFiles>
                         </configuration>
                     </execution>
 

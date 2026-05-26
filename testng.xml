@@ -76,4 +76,59 @@
             <class name="com.saddy.tests.ShadowDomDemoTest"/>
         </classes>
     </test>
+
+    <test name="VisualRegressionDemo">
+        <classes>
+            <class name="com.saddy.tests.VisualRegressionDemoTest"/>
+        </classes>
+    </test>
+
+    <test name="DependsOnApiDemo">
+        <classes>
+            <class name="com.saddy.tests.DependsOnApiDemoTest"/>
+        </classes>
+    </test>
+
+    <test name="DeviceEmulationDemo">
+        <classes>
+            <class name="com.saddy.tests.DeviceEmulationDemoTest"/>
+        </classes>
+    </test>
+
+    <test name="LocatorApiDemo">
+        <classes>
+            <class name="com.saddy.tests.LocatorApiDemoTest"/>
+        </classes>
+    </test>
+
+    <test name="Phase17Demo">
+        <classes>
+            <class name="com.saddy.tests.Phase17DemoTest"/>
+        </classes>
+    </test>
+
+    <test name="SelfHealingDemo">
+        <classes>
+            <class name="com.saddy.tests.SelfHealingDemoTest"/>
+        </classes>
+    </test>
+
+    <test name="StorageDemo">
+        <classes>
+            <class name="com.saddy.tests.StorageDemoTest"/>
+        </classes>
+    </test>
+
+    <test name="TracingDemo">
+        <classes>
+            <class name="com.saddy.tests.TracingDemoTest"/>
+        </classes>
+    </test>
+
+    <test name="CucumberTests">
+        <classes>
+            <class name="com.saddy.bdd.CucumberRunner"/>
+        </classes>
+    </test>
+
 </suite>
