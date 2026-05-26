@@ -69,6 +69,21 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                <dependencies>
+                    <!-- Both providers must be explicit. With only one declared, it is used for ALL
+                         executions ignoring testNGArtifactName. With both declared, the per-execution
+                         config (suiteXmlFiles / testNGArtifactName=none:none) can select the right one. -->
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-testng</artifactId>
+                        <version>3.2.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit-platform</artifactId>
+                        <version>3.2.5</version>
+                    </dependency>
+                </dependencies>
                 <executions>
 
                     <!-- Disable the auto-detected default execution -->
@@ -77,9 +92,7 @@
                         <phase>none</phase>
                     </execution>
 
-                    <!-- TestNG: all tests declared in testng.xml.
-                         suiteXmlFiles is the only config that unconditionally forces
-                         TestNG provider selection regardless of classpath auto-detection. -->
+                    <!-- TestNG suite — suiteXmlFiles forces TestNG provider when both providers are declared -->
                     <execution>
                         <id>testng</id>
                         <phase>test</phase>
