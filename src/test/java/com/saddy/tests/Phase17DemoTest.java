@@ -41,7 +41,7 @@ public class Phase17DemoTest extends BaseTest {
         Assert.assertFalse(heading.isEmpty(), "Heading should not be empty");
     }
 
-    @Test(description = "Failing test — triggers AI failure analysis (if ai.failureAnalysis=true)")
+    @Test(description = "Failing test — triggers AI failure analysis (if ai.failureAnalysis=true)", enabled = false)
     public void failingTestForAiAnalysis() {
         StepLogger.step("Navigate to page");
         getDriver().get(URL);

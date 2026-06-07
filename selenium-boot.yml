@@ -7,7 +7,7 @@ execution:
 
 browser:
   name: chrome          # chrome | firefox
-  headless: false
+  headless: true
   lifecycle: per-test   # per-test (default) | per-suite
   captureConsoleErrors: true   # collect JS errors — used by ConsoleErrorDemoTest
   failOnConsoleErrors: false   # set true to fail test on any JS error

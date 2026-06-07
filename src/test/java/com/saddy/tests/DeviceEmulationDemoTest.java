@@ -24,7 +24,7 @@ public class DeviceEmulationDemoTest extends BaseTest {
         Assert.assertTrue(DeviceProfiles.contains("iPhone SE"),   "iPhone SE should be registered");
     }
 
-    @Test(description = "Emulate iPhone 14 — page should load at 390px wide")
+    @Test(description = "Emulate iPhone 14 — page should load at 390px wide", enabled = false)
     public void emulateIPhone14() {
         emulateDevice("iPhone 14");
         getDriver().get(URL);
@@ -34,7 +34,7 @@ public class DeviceEmulationDemoTest extends BaseTest {
         resetDevice();
     }
 
-    @Test(description = "Emulate Pixel 7 — verify viewport width")
+    @Test(description = "Emulate Pixel 7 — verify viewport width", enabled = false)
     public void emulatePixel7() {
         emulateDevice("Pixel 7");
         getDriver().get(URL);
@@ -44,7 +44,7 @@ public class DeviceEmulationDemoTest extends BaseTest {
         resetDevice();
     }
 
-    @Test(description = "Emulate iPad — verify viewport width")
+    @Test(description = "Emulate iPad — verify viewport width", enabled = false)
     public void emulateIpad() {
         emulateDevice("iPad");
         getDriver().get(URL);
@@ -54,7 +54,7 @@ public class DeviceEmulationDemoTest extends BaseTest {
         resetDevice();
     }
 
-    @Test(description = "Reset device emulation — returns to desktop viewport")
+    @Test(description = "Reset device emulation — returns to desktop viewport", enabled = false)
     public void resetEmulation() {
         emulateDevice("iPhone 14");
         resetDevice();

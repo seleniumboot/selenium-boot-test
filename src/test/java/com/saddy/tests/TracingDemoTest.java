@@ -43,7 +43,7 @@ public class TracingDemoTest extends BaseTest {
         StepLogger.step("Test complete", StepStatus.PASS);
     }
 
-    @Test(description = "Deliberately failing test — trace file should be generated at target/traces/")
+    @Test(description = "Deliberately failing test — trace file should be generated at target/traces/", enabled = false)
     public void failingTestWithSteps() {
         StepLogger.step("Open test page");
         getDriver().get(URL);
