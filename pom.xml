@@ -65,19 +65,38 @@
                     <release>${maven.compiler.release}</release>
                 </configuration>
             </plugin>
+            <!-- TestNG suite (testng.xml) — surefire plugin with only the TestNG provider declared.
+                 Declaring surefire-junit-platform here too makes surefire invoke BOTH providers for
+                 every execution; the TestNG provider then crashes with an NPE in
+                 TestNGExecutor.getConfigurator (testng.configurator is never populated) whenever it
+                 runs against an execution meant for JUnit 5. Keeping the providers in separate plugin
+                 instances (surefire vs. failsafe below) avoids that entirely. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <dependencies>
-                    <!-- Both providers must be explicit. With only one declared, it is used for ALL
-                         executions ignoring testNGArtifactName. With both declared, the per-execution
-                         config (suiteXmlFiles / testNGArtifactName=none:none) can select the right one. -->
                     <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
                         <artifactId>surefire-testng</artifactId>
                         <version>3.2.5</version>
                     </dependency>
+                </dependencies>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+
+            <!-- JUnit 5 tests — run via the failsafe plugin (a separate plugin instance) with only the
+                 JUnit Platform provider declared, so its fork never shares a classpath with the TestNG
+                 provider above. Bound to the test phase so `mvn test` still runs everything. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.2.5</version>
+                <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
                         <artifactId>surefire-junit-platform</artifactId>
@@ -85,39 +104,19 @@
                     </dependency>
                 </dependencies>
                 <executions>
-
-                    <!-- Disable the auto-detected default execution -->
-                    <execution>
-                        <id>default-test</id>
-                        <phase>none</phase>
-                    </execution>
-
-                    <!-- TestNG suite — suiteXmlFiles forces TestNG provider when both providers are declared -->
-                    <execution>
-                        <id>testng</id>
-                        <phase>test</phase>
-                        <goals><goal>test</goal></goals>
-                        <configuration>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>testng.xml</suiteXmlFile>
-                            </suiteXmlFiles>
-                        </configuration>
-                    </execution>
-
-                    <!-- JUnit 5 tests -->
                     <execution>
                         <id>junit5</id>
                         <phase>test</phase>
-                        <goals><goal>test</goal></goals>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
                         <configuration>
                             <includes>
                                 <include>**/junit5/**/*Test.java</include>
                             </includes>
-                            <!-- Prevent TestNG provider from being selected; JUnit Platform provider runs instead -->
-                            <testNGArtifactName>none:none</testNGArtifactName>
                         </configuration>
                     </execution>
-
                 </executions>
             </plugin>
         </plugins>
