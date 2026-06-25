@@ -101,6 +101,12 @@
         </classes>
     </test>
 
+    <test name="SemanticLocatorDemo">
+        <classes>
+            <class name="com.saddy.tests.SemanticLocatorDemoTest"/>
+        </classes>
+    </test>
+
     <test name="Phase17Demo">
         <classes>
             <class name="com.saddy.tests.Phase17DemoTest"/>
