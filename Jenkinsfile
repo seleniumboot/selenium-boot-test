@@ -1,44 +1,38 @@
 // Jenkins pipeline for the Selenium Boot consumer test suite.
 //
-// Runs on every push to THIS repo (selenium-boot-test) and — when triggered with
-// BUILD_FRAMEWORK_FROM_SOURCE=true — also validates a freshly-pushed build of the
-// selenium-boot framework BEFORE it is published to Maven Central.
+// Triggers on every push to this repo (githubPush webhook). It can also be
+// triggered downstream by the selenium-boot framework job with
+// BUILD_FRAMEWORK_FROM_SOURCE=true, which builds the framework from source and
+// runs this suite against it — validating unpublished changes before release.
 //
-// Triggering:
-//   • This repo:      GitHub webhook + pollSCM safety net (see triggers{} below).
-//   • Framework repo: have the selenium-boot pipeline trigger this job downstream:
-//
-//       build job: 'selenium-boot-test',
-//             parameters: [booleanParam(name: 'BUILD_FRAMEWORK_FROM_SOURCE', value: true)],
-//             wait: false
-//
-//     (Replace 'selenium-boot-test' with this job's actual name in Jenkins.)
-//
-// Required Jenkins config:
-//   • JDK named 'JDK17' and Maven named 'Maven3' under Global Tool Configuration.
-//   • Chrome/Chromium installed on the agent (Selenium Manager fetches the driver).
+// Jenkins prerequisites:
+//   • Maven tool named "Maven-3" (Global Tool Configuration); agent default JDK is 17+.
+//   • Chrome/Chromium on the agent (Selenium Manager fetches the driver).
 //   • HTML Publisher plugin (for the publishHTML step).
 
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     tools {
-        jdk 'JDK17'
-        maven 'Maven3'
+        maven "Maven-3"
     }
 
     parameters {
         booleanParam(
             name: 'BUILD_FRAMEWORK_FROM_SOURCE',
             defaultValue: false,
-            description: 'Checkout & build selenium-boot from source, then run this suite against it. ' +
-                         'Framework-repo triggers set this to true; manual/consumer builds leave it false ' +
+            description: 'Build selenium-boot from source and test against it. ' +
+                         'Framework-repo triggers set this true; normal pushes leave it false ' +
                          'to use the version pinned in pom.xml.'
         )
         string(
             name: 'FRAMEWORK_BRANCH',
             defaultValue: 'master',
-            description: 'Branch of the selenium-boot framework to build when BUILD_FRAMEWORK_FROM_SOURCE is true.'
+            description: 'selenium-boot branch to build when BUILD_FRAMEWORK_FROM_SOURCE is true.'
         )
     }
 
@@ -48,24 +42,10 @@ pipeline {
         FRAMEWORK_REPO_URL = 'https://github.com/seleniumboot/selenium-boot.git'
     }
 
-    options {
-        timestamps()
-        timeout(time: 60, unit: 'MINUTES')
-        buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '10'))
-        disableConcurrentBuilds()
-    }
-
-    triggers {
-        // Webhook gives instant builds (enable "GitHub hook trigger for GITScm polling"
-        // on this job and add a push webhook to the repo). pollSCM is the fallback that
-        // catches any push whose webhook was missed.
-        pollSCM('H/5 * * * *')
-    }
-
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                checkout scm
+                git 'https://github.com/seleniumboot/selenium-boot-test.git'
             }
         }
 
@@ -75,7 +55,6 @@ pipeline {
                 dir('selenium-boot-framework') {
                     git url: env.FRAMEWORK_REPO_URL, branch: params.FRAMEWORK_BRANCH
                     script {
-                        // Read the framework's project version (first <version> in its pom).
                         env.FRAMEWORK_VERSION = sh(
                             script: "grep -m1 '<version>' pom.xml | sed -E 's/.*<version>(.*)<\\/version>.*/\\1/' | tr -d '[:space:]'",
                             returnStdout: true
@@ -90,20 +69,10 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // When built from source, pin the suite to the freshly-installed version.
                     def versionOverride = (params.BUILD_FRAMEWORK_FROM_SOURCE && env.FRAMEWORK_VERSION)
                             ? "-Dselenium-boot.version=${env.FRAMEWORK_VERSION}"
                             : ''
-                    sh "mvn clean test -B --no-transfer-progress ${versionOverride}"
-                }
-            }
-            post {
-                always {
-                    // TestNG (surefire) + JUnit 5 (failsafe) result XML.
-                    junit testResults: 'target/surefire-reports/TEST-*.xml, target/failsafe-reports/TEST-*.xml',
-                          allowEmptyResults: true
-                    archiveArtifacts artifacts: 'target/selenium-boot-report.html, target/selenium-boot-metrics.json, target/metrics-history/**, target/traces/**, target/recordings/**',
-                                     allowEmptyArchive: true
+                    sh "mvn -Dmaven.test.failure.ignore=true ${versionOverride} clean package"
                 }
             }
         }
@@ -111,6 +80,11 @@ pipeline {
 
     post {
         always {
+            // TestNG (surefire) + JUnit 5 (failsafe) results — runs regardless of outcome.
+            junit allowEmptyResults: true,
+                  testResults: '**/target/surefire-reports/TEST-*.xml, **/target/failsafe-reports/TEST-*.xml'
+
+            // Publish the Selenium Boot HTML report (requires HTML Publisher plugin).
             publishHTML(target: [
                 allowMissing         : true,
                 alwaysLinkToLastBuild: true,
@@ -119,13 +93,9 @@ pipeline {
                 reportFiles          : 'selenium-boot-report.html',
                 reportName           : 'Selenium Boot Report'
             ])
-            echo "Build finished: ${currentBuild.currentResult}"
-        }
-        failure {
-            echo 'Tests failed — open the Selenium Boot Report or target/surefire-reports.'
         }
         success {
-            echo 'All tests passed.'
+            archiveArtifacts 'target/*.jar'
         }
     }
 }
