@@ -11,13 +11,16 @@
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Override on CI to test against a from-source framework build:
+             mvn test -Dselenium-boot.version=<built-version> -->
+        <selenium-boot.version>3.1.0</selenium-boot.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.seleniumboot</groupId>
             <artifactId>selenium-boot</artifactId>
-            <version>3.1.0</version>
+            <version>${selenium-boot.version}</version>
         </dependency>
 
         <dependency>
