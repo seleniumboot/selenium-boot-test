@@ -38,9 +38,12 @@ public class DependsOnApiDemoTest extends BaseTest {
 
     // ── Scenario 3: multiple dependencies — all must be up ────────────────
 
+    // Both deps point at hosts we control. An unreliable third party here (httpbin.org,
+    // previously used) makes this test skip silently — which looks green while no longer
+    // demonstrating anything.
     @Test(description = "Both APIs up — test runs")
     @DependsOnApi("https://panjatan.netlify.app")
-    @DependsOnApi("https://httpbin.org/status/200")
+    @DependsOnApi("https://seleniumboot.com")
     public void test_runsWhenBothApisAreUp() {
         getDriver().get("https://panjatan.netlify.app");
         assertFalse(getDriver().getTitle().isEmpty(), "Page should load with all deps healthy");

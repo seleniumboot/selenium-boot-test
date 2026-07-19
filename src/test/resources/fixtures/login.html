@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+  Local fixture for SelfHealingDemoTest.
+
+  Mirrors the element contract the self-healing demos rely on — the same one
+  https://the-internet.herokuapp.com/login exposes:
+    username field — id="username", name="username"
+    password field — id="password", name="password"
+    submit button  — class="radius", no id
+
+  Kept local so the demo of a locator-drift feature does not itself depend on a
+  third-party site staying up. Loaded over file:// — no server required.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login Page</title>
+    <style>
+        body { font-family: sans-serif; max-width: 40rem; margin: 3rem auto; }
+        label { display: block; margin-top: 1rem; }
+        input { padding: .4rem; width: 16rem; }
+        .radius { margin-top: 1.2rem; padding: .5rem 1rem; border-radius: 3px;
+                  background: #5cb85c; color: #fff; border: 0; cursor: pointer; }
+        #flash { margin-top: 1rem; color: #b94a48; }
+    </style>
+</head>
+<body>
+<h2>Login Page</h2>
+
+<form id="login" onsubmit="return attemptLogin(event)">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" autocomplete="off">
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" autocomplete="off">
+
+    <button type="submit" class="radius">
+        <i class="fa fa-2x fa-sign-in"></i> Login
+    </button>
+</form>
+
+<div id="flash"></div>
+
+<script>
+    // Same credentials as the-internet, so the demo reads identically.
+    function attemptLogin(event) {
+        event.preventDefault();
+        // Read by name, not id — the drift scenarios rename the ids at runtime.
+        var user = document.getElementsByName('username')[0].value;
+        var pass = document.getElementsByName('password')[0].value;
+
+        if (user === 'tomsmith' && pass === 'SuperSecretPassword!') {
+            window.location.href = 'secure.html';
+        } else {
+            document.getElementById('flash').textContent =
+                'Your username is invalid!';
+        }
+        return false;
+    }
+</script>
+</body>
+</html>

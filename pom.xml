@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Override on CI to test against a from-source framework build:
              mvn test -Dselenium-boot.version=<built-version> -->
-        <selenium-boot.version>3.1.1</selenium-boot.version>
+        <selenium-boot.version>3.2.0</selenium-boot.version>
     </properties>
 
     <dependencies>

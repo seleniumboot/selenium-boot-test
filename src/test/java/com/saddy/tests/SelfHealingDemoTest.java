@@ -21,13 +21,27 @@ import org.testng.annotations.Test;
  * tries each in order. Healed tests get a ⚠ healed badge in the HTML report and are
  * written to target/healed-locators.json.
  *
- * Test site: https://the-internet.herokuapp.com/login
+ * Test page: src/test/resources/fixtures/login.html — loaded over file://, no server needed.
  *   username field — id="username", name="username", type="text"
  *   password field — id="password", name="password", type="password"
+ *   submit button  — class="radius", no id
+ *
+ * The fixture is deliberately local: this suite demonstrates recovery from locator
+ * drift, so it needs full control of the DOM and must not depend on a third-party
+ * site being reachable.
  */
 public class SelfHealingDemoTest extends BaseTest {
 
-    private static final String LOGIN_URL = "https://the-internet.herokuapp.com/login";
+    private static final String LOGIN_URL = fixture("/fixtures/login.html");
+
+    /** Resolves a test-classpath fixture to the file:// URL the browser can open. */
+    private static String fixture(String resourcePath) {
+        var url = SelfHealingDemoTest.class.getResource(resourcePath);
+        if (url == null) {
+            throw new IllegalStateException("Missing test fixture on classpath: " + resourcePath);
+        }
+        return url.toString();
+    }
 
     // ─────────────────────────────────────────────────────────────────────────
     // Scenario 1 — CSS compound selector: stale id + valid name
