@@ -1,29 +1,41 @@
 package com.saddy.tests;
 
-import com.seleniumboot.listeners.Retryable;
+import com.seleniumboot.locator.Role;
 import com.seleniumboot.test.BaseTest;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-
+/**
+ * The first test most people read. It is deliberately the smallest useful example of
+ * what Selenium Boot actually gives you over plain Selenium:
+ *
+ * <ul>
+ *   <li>no driver setup or teardown — {@code BaseTest} owns the lifecycle</li>
+ *   <li>no {@code WebDriverWait} — {@code assertThat(...)} retries until the timeout</li>
+ *   <li>no CSS selectors or XPath — elements are found by label, role and test id,
+ *       the way a user or a screen reader finds them</li>
+ * </ul>
+ *
+ * <p>Raw Selenium is never hidden: {@code getDriver()} is always there when you need it.
+ * See {@code LocatorApiDemoTest} for the full locator surface.
+ */
 public class SampleTest extends BaseTest {
-    @Test
-    public void testSampleDemo() {
-        getDriver().get("https://google.com");
-        assertEquals(getDriver().getTitle(), "Google");
+
+    @Test(description = "Find and fill a form without a single CSS selector")
+    public void signsInUsingAccessibleLocators() {
+        open();
+
+        getByLabel("Username").type("admin");
+        getByLabel("Password").type("password");
+
+        assertThat(getByLabel("Username")).hasValue("admin");
+        assertThat(getByRole(Role.BUTTON, "Login")).isVisible();
     }
 
-    @Test
-    public void testScreenshotOnFailure() {
-        getDriver().get("https://google.com");
-        assertEquals(getDriver().getTitle(), "Google");
-    }
+    @Test(description = "Locate by test id — survives any CSS or DOM refactor")
+    public void findsElementsByTestId() {
+        open();
 
-//    @Retryable
-//    @Test(description = "This is a flaky Test")
-//    public void flakyTest() {
-//        if (Math.random() < 0.7) {
-//            throw new RuntimeException("Random failure");
-//        }
-//    }
+        assertThat(getByTestId("login-submit-btn")).isVisible();
+        assertThat(getByTestId("remember-checkbox")).isVisible();
+    }
 }
